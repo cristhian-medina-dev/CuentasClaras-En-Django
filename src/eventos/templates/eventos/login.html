@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Iniciá sesión para probar el acceso a tus eventos." />
+  <title>Login — CuentasClaras</title>
+  <link rel="stylesheet" href="{% static 'eventos/estilos.css' %}" />
+</head>
+<body>
+  <header>
+    <nav aria-label="Navegación principal">
+      <a href="{% url 'inicio' %}">CuentasClaras</a>
+      <div class="nav-links">
+        <a href="{% url 'inicio' %}">Inicio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-estrecho">
+    <section class="tarjeta">
+      <h1>Iniciar sesión</h1>
+      <p class="subtexto">Entrá con tu cuenta para acceder a tus eventos.</p>
+
+      <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="campo">
+          <label for="id_username">Usuario</label>
+          <input type="text" name="username" id="id_username" required autofocus />
+        </div>
+
+        <div class="campo">
+          <label for="id_password">Contraseña</label>
+          <input type="password" name="password" id="id_password" required />
+        </div>
+
+        <div class="form-acciones">
+          <button type="submit" class="btn-primario btn-bloque">Entrar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Creá y administrá tus eventos, participantes y cuentas claras en ClearLedger." />
+  <title>Crear evento — ClearLedger</title>
+  <link rel="stylesheet" href="{% static 'eventos/estilos.css' %}" />
+</head>
+<body>
+  <header>
+    <nav aria-label="Navegación principal">
+      <a href="{% url 'inicio' %}">CuentasClaras</a>
+      <div class="nav-links">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <span class="nav-user">Usuario: <strong>{{ request.user.username }}</strong></span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn-salir">Cerrar sesión</button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tarjeta">
+      <h1>Crear y administrar eventos</h1>
+      <p class="subtexto">
+        Sesión activa. Acá vamos a armar el formulario para crear eventos y cargar participantes.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
