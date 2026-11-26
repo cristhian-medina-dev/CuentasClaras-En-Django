@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Creá y administrá tus eventos, participantes y cuentas claras en ClearLedger." />
-  <title>Crear evento — ClearLedger</title>
+  <meta name="description" content="Creá un nuevo evento y revisá tu historial de eventos en CuentasClaras." />
+  <title>Crear evento — CuentasClaras</title>
   <link rel="stylesheet" href="{% static 'eventos/estilos.css' %}" />
 </head>
 <body>
@@ -25,10 +25,52 @@
 
   <main>
     <section class="tarjeta">
-      <h1>Crear y administrar eventos</h1>
-      <p class="subtexto">
-        Sesión activa. Acá vamos a armar el formulario para crear eventos y cargar participantes.
-      </p>
+      <h1>Crear evento</h1>
+      <p class="subtexto">Elegí un nombre para tu evento y empezá a organizar las cuentas.</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="campo">
+          <label for="id_nombre">Nombre del evento</label>
+          <input
+            type="text"
+            name="nombre"
+            id="id_nombre"
+            placeholder="Ej.: Asado del viernes, Viaje a Córdoba"
+            maxlength="120"
+            required
+          />
+        </div>
+        <div class="form-acciones">
+          <button type="submit" class="btn-primario">Crear evento</button>
+        </div>
+      </form>
+    </section>
+
+    <hr />
+
+    <section class="tarjeta">
+      <h2>Tus eventos anteriores</h2>
+      {% if eventos %}
+        <ul class="lista-eventos">
+          {% for evento in eventos %}
+            <li>
+              <div class="evento-item">
+                <div>
+                  <strong>{{ evento.nombre }}</strong>
+                  <span class="subtexto"> — {{ evento.creado_en|date:"d/m/Y H:i" }}</span>
+                </div>
+                <form method="post" action="{% url 'eliminar_evento' evento.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-salir">Eliminar</button>
+                </form>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="subtexto">Todavía no creaste ningún evento. ¡Cargá el primero arriba!</p>
+      {% endif %}
     </section>
   </main>
 </body>
