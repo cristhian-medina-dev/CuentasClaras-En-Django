@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Administrá los gastos del evento {{ evento.nombre }} en CuentasClaras." />
+  <title>{{ evento.nombre }} — CuentasClaras</title>
+  <link rel="stylesheet" href="{% static 'eventos/estilos.css' %}" />
+</head>
+<body>
+  <header>
+    <nav aria-label="Navegación principal">
+      <a href="{% url 'inicio' %}">CuentasClaras</a>
+      <div class="nav-links">
+        <a href="{% url 'crear_evento' %}">Eventos</a>
+        <span class="nav-user">Usuario: <strong>{{ request.user.username }}</strong></span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn-salir">Cerrar sesión</button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tarjeta">
+      <p class="subtexto"><a href="{% url 'crear_evento' %}">← Volver a eventos</a></p>
+      <h1>{{ evento.nombre }}</h1>
+      <p class="subtexto">
+        Creado el {{ evento.creado_en|date:"d/m/Y H:i" }} · Total gastado: <strong>${{ total_gastado }}</strong>
+      </p>
+
+      {% if error %}
+        <p role="alert"><strong>{{ error }}</strong></p>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="campo">
+          <label for="id_descripcion">Descripción del gasto</label>
+          <input
+            type="text"
+            name="descripcion"
+            id="id_descripcion"
+            placeholder="Ej.: Carbón, bebidas, pizza"
+            maxlength="140"
+            required
+          />
+        </div>
+        <div class="campo">
+          <label for="id_monto">Monto</label>
+          <input
+            type="text"
+            name="monto"
+            id="id_monto"
+            placeholder="Ej.: 15000 o 15000.50"
+            required
+          />
+        </div>
+        <div class="campo">
+          <label for="id_dividir_entre">Dividir entre (cantidad de personas)</label>
+          <input
+            type="number"
+            name="dividir_entre"
+            id="id_dividir_entre"
+            value="1"
+            min="1"
+            required
+          />
+        </div>
+        <div class="form-acciones">
+          <button type="submit" class="btn-primario">Agregar gasto</button>
+        </div>
+      </form>
+    </section>
+
+    <hr />
+
+    <section class="tarjeta">
+      <h2>Gastos cargados</h2>
+      {% if gastos %}
+        <ul class="lista-eventos">
+          {% for gasto in gastos %}
+            <li>
+              <div>
+                <strong>{{ gasto.descripcion }}</strong>
+                <span class="subtexto">
+                  — ${{ gasto.monto }} · Dividido entre {{ gasto.dividir_entre }} (${{ gasto.monto_por_persona|floatformat:2 }} c/u)
+                </span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="subtexto">Todavía no hay gastos cargados en este evento.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

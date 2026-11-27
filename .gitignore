@@ -1,0 +1,25 @@
+*# Entorno virtual y cachés de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Caché y archivos propios de uv
+.uv/
+
+# Base de datos local y archivos de entorno / secretos
+*.sqlite3
+*.sqlite3-journal
+.env
+.env.*
+
+# Archivos del sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -57,8 +57,10 @@
             <li>
               <div class="evento-item">
                 <div>
-                  <strong>{{ evento.nombre }}</strong>
-                  <span class="subtexto"> — {{ evento.creado_en|date:"d/m/Y H:i" }}</span>
+                  <a href="{% url 'detalle_evento' evento.id %}"><strong>{{ evento.nombre }}</strong></a>
+                  <span class="subtexto">
+                    — Creado por <strong>{{ evento.organizador.username }}</strong> · {{ evento.creado_en|date:"d/m/Y H:i" }}
+                  </span>
                 </div>
                 <form method="post" action="{% url 'eliminar_evento' evento.id %}">
                   {% csrf_token %}
